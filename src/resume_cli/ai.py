@@ -13,6 +13,7 @@ import os
 import re
 
 import anthropic
+from pydantic import ValidationError
 
 from .errors import AIError
 from .models import ResumeInfo, ScoreResult
@@ -91,8 +92,9 @@ def _parse_with_fallback(system: str, prompt: str, schema, model: str):
         return resp.parsed_output
     except anthropic.AuthenticationError as e:
         raise AIError("鉴权失败：请检查环境变量 ANTHROPIC_API_KEY 是否正确设置") from e
-    except anthropic.APIError as e:
-        # 结构化路径出错，尝试普通消息 + JSON 修复兜底
+    except (anthropic.APIError, ValidationError) as e:
+        # 结构化路径出错（API 报错，或模型在 JSON 外夹带解释/markdown 导致 SDK 校验失败），
+        # 尝试普通消息 + JSON 修复兜底
         log.warning("结构化输出失败，尝试普通消息兜底: %s", e)
         return _parse_raw_fallback(client, system, prompt, schema, model, cause=e)
 
