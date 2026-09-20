@@ -36,9 +36,14 @@ resume-cli/
 │   ├── errors.py       # 统一异常类型
 │   └── logging_conf.py # 日志（输出到 stderr，不污染 stdout 的 JSON）
 ├── tests/              # pytest 单元测试
-├── examples/jd.txt     # 示例 JD
+├── examples/
+│   ├── jd.txt          # 示例 JD
+│   ├── resumes/        # 10 份仿真简历（中文 5 + 英文 5），供演示/测试
+│   └── gen_resumes.py  # 生成上述简历的脚本（需 reportlab）
 ├── Makefile / Dockerfile
 ```
+
+> 说明：`examples/resumes/` 里的简历均为**虚构人物**，内容结构接近真实简历（基本信息 / 教育 / 技能 / 工作 / 项目），中文通过嵌入 Unicode 字体渲染，`pypdf` 可正确提取。不含任何真实个人隐私。可用 `make resumes` 重新生成。
 
 ## 环境变量配置
 
@@ -66,21 +71,21 @@ pip install .
 ## CLI 命令说明与示例
 
 ```bash
-# 1. 提取 PDF 文本
-resume-cli parse ./resume.pdf
+# 1. 提取 PDF 文本（可直接用内置仿真简历）
+resume-cli parse ./examples/resumes/zh_01_fullstack.pdf
 
 # 2. 结构化提取（输出 JSON，可保存到文件）
-resume-cli extract ./resume.pdf --output result.json
+resume-cli extract ./examples/resumes/en_01_fullstack.pdf --output result.json
 
 # 3. JD 匹配评分
-resume-cli score ./resume.pdf --jd ./examples/jd.txt
+resume-cli score ./examples/resumes/zh_01_fullstack.pdf --jd ./examples/jd.txt
 
 # 无需 API Key 的演示（mock 模式，全局选项，放在子命令前）
-resume-cli --mock extract ./resume.pdf
-resume-cli --mock score ./resume.pdf --jd ./examples/jd.txt
+resume-cli --mock extract ./examples/resumes/zh_02_backend.pdf
+resume-cli --mock score ./examples/resumes/en_02_backend.pdf --jd ./examples/jd.txt
 
 # 调试日志
-resume-cli --verbose extract ./resume.pdf
+resume-cli --verbose extract ./examples/resumes/zh_04_ml.pdf
 ```
 
 ### 示例输出
