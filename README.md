@@ -58,15 +58,38 @@ resume-cli/
 export ANTHROPIC_API_KEY=sk-ant-xxxx
 ```
 
-## 安装
+## 安装（第三方用户）
+
+四种方式任选其一：
 
 ```bash
-# 推荐使用 uv
-uv sync --extra dev
+# 方式一：uv（推荐，最快）
+git clone https://github.com/jiangwei1995/resume-cli.git
+cd resume-cli && uv sync
+uv run resume-cli --help
 
-# 或使用 pip
-pip install .
+# 方式二：pip 从 GitHub 直接安装（暴露全局命令 resume-cli）
+pip install git+https://github.com/jiangwei1995/resume-cli.git
+resume-cli --help
+
+# 方式三：pipx 隔离安装为全局工具
+pipx install git+https://github.com/jiangwei1995/resume-cli.git
+
+# 方式四：Docker
+docker build -t resume-cli .
+docker run --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
+  -v "$PWD/examples:/data" resume-cli extract /data/resumes/zh_01_fullstack.pdf
 ```
+
+> 开发/测试请用 `uv sync --extra dev` 安装含 pytest 的开发依赖。
+
+## 一键演示
+
+```bash
+bash scripts/demo.sh          # 依次演示 parse / extract / score
+```
+
+有 `ANTHROPIC_API_KEY` 时走真实 AI，否则自动使用 `--mock`，方便录屏演示。
 
 ## CLI 命令说明与示例
 
