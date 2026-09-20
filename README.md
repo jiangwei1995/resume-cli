@@ -83,6 +83,10 @@ docker run --rm -e ANTHROPIC_API_KEY=$ANTHROPIC_API_KEY \
 
 > 开发/测试请用 `uv sync --extra dev` 安装含 pytest 的开发依赖。
 
+## 演示视频
+
+约 50 秒的演示动画：[demo/resume-cli-demo.mp4](demo/resume-cli-demo.mp4)（含配音，覆盖安装 / parse / extract / score）。
+
 ## 一键演示
 
 ```bash
