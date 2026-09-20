@@ -41,6 +41,6 @@ say "3) score —— 简历与 JD 匹配评分（英文简历 + 中文 JD）"
 run "uv run resume-cli $MOCK score $EN --jd $JD"
 
 say "4) 项目结构一览"
-run "find src tests examples -type f -not -name '*.pdf' | sort"
+run "find src tests examples -type f -not -name '*.pdf' -not -path '*/__pycache__/*' -not -name '.DS_Store' | sort"
 
 printf '\n\033[1;36m# 演示结束。仓库：https://github.com/jiangwei1995/resume-cli\033[0m\n'
