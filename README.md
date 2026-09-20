@@ -63,17 +63,17 @@ export ANTHROPIC_API_KEY=sk-ant-xxxx
 四种方式任选其一：
 
 ```bash
-# 方式一：uv（推荐，最快）
+# 方式一：uv tool 全局安装（推荐，一行装好全局命令 resume-cli）
+uv tool install "git+https://github.com/jiangwei1995/resume-cli.git"
+resume-cli --help
+
+# 方式二：uv 本地开发（克隆后在项目内运行）
 git clone https://github.com/jiangwei1995/resume-cli.git
 cd resume-cli && uv sync
 uv run resume-cli --help
 
-# 方式二：pip 从 GitHub 直接安装（暴露全局命令 resume-cli）
-pip install git+https://github.com/jiangwei1995/resume-cli.git
-resume-cli --help
-
 # 方式三：pipx 隔离安装为全局工具
-pipx install git+https://github.com/jiangwei1995/resume-cli.git
+pipx install "git+https://github.com/jiangwei1995/resume-cli.git"
 
 # 方式四：Docker
 docker build -t resume-cli .
